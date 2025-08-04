@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' 
+    viewBox='0 0 100 100'><rect width='100' height='100' fill='%232c3e50'/><rect x='20' y='20' width='60' height='60' 
+    fill='%23fff'/><rect x='30' y='30' width='10' height='10' fill='%232c3e50'/><rect x='60' y='30' width='10' height='10' 
+    fill='%232c3e50'/><rect x='30' y='60' width='10' height='10' fill='%232c3e50'/></svg>">
+</head>
+<body>
+    <div class="main-content">
+        <div class="container">
+            <h1>QR Code Generator</h1>
+            <div class="input-group">
+                <input type="text" id="qr-input" placeholder="Enter text or URL">
+                <button id="generate-btn">Generate QR Code</button>
+            </div>
+            <div id="qr-code-container">
+                <div id="qr-code"></div>
+                <button id="download-btn" class="hidden">Download QR Code</button>
+                <p id="error-message" class="hidden"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 QR Code Generator. All Rights Reserved.</p>
+    </footer>
+
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
