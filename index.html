@@ -13,15 +13,52 @@
 <body>
     <div class="main-content">
         <div class="container">
-            <h1>QR Code Generator</h1>
-            <div class="input-group">
-                <input type="text" id="qr-input" placeholder="Enter text or URL">
-                <button id="generate-btn">Generate QR Code</button>
+            <h1>QR & Barcode Converter</h1>
+            
+            <!-- Mode Selection -->
+            <div class="mode-selector">
+                <button id="qr-mode-btn" class="active">QR Code</button>
+                <button id="barcode-mode-btn">Barcode</button>
+                <button id="convert-mode-btn">Convert</button>
             </div>
-            <div id="qr-code-container">
-                <div id="qr-code"></div>
-                <button id="download-btn" class="hidden">Download QR Code</button>
-                <p id="error-message" class="hidden"></p>
+
+            <!-- QR Code Section -->
+            <div id="qr-section">
+                <div class="input-group">
+                    <input type="text" id="qr-input" placeholder="Enter text or URL">
+                    <button id="generate-btn">Generate QR Code</button>
+                </div>
+                <div id="qr-code-container">
+                    <div id="qr-code"></div>
+                    <button id="download-qr-btn" class="hidden">Download QR Code</button>
+                    <p id="error-message" class="hidden"></p>
+                </div>
+            </div>
+
+            <!-- Barcode Section -->
+            <div id="barcode-section" class="hidden">
+                <div class="input-group">
+                    <input type="text" id="barcode-input" placeholder="Enter numbers (EAN-13 format)">
+                    <button id="generate-barcode-btn">Generate Barcode</button>
+                </div>
+                <div id="barcode-container">
+                    <canvas id="barcode"></canvas>
+                    <button id="download-barcode-btn" class="hidden">Download Barcode</button>
+                    <p id="barcode-error-message" class="hidden"></p>
+                </div>
+            </div>
+
+            <!-- Conversion Section -->
+            <div id="convert-section" class="hidden">
+                <div class="input-group">
+                    <input type="file" id="file-input" accept="image/*">
+                    <button id="convert-btn">Convert Image</button>
+                </div>
+                <div id="conversion-result">
+                    <p>Upload an image to convert between QR code and barcode</p>
+                    <div id="converted-output"></div>
+                    <button id="download-converted-btn" class="hidden">Download Result</button>
+                </div>
             </div>
         </div>
     </div>
@@ -30,7 +67,10 @@
         <p>© 2025 QR Code Generator. All Rights Reserved.</p>
     </footer>
 
+    <!-- Libraries -->
     <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qr-scanner@1.4.2/qr-scanner.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
