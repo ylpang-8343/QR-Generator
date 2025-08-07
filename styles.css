@@ -153,16 +153,6 @@ footer p {
     margin: 20px 0;
 }
 
-#file-input {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-#conversion-result {
-    text-align: center;
-    margin-top: 20px;
-}
-
 #barcode-container {
     text-align: center;
     margin-top: 20px;
@@ -185,30 +175,5 @@ footer p {
 }
 
 #download-barcode-btn.hidden {
-    display: none;
-}
-
-#converted-output {
-    text-align: center;
-    margin-top: 20px;
-    min-height: 250px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-#download-converted-btn {
-    background-color: #27ae60;
-    margin-top: 20px;
-    padding: 10px 15px;
-    display: inline-block;
-}
-
-#download-converted-btn:hover {
-    background-color: #219653;
-}
-
-#download-converted-btn.hidden {
     display: none;
 }

@@ -19,7 +19,6 @@
             <div class="mode-selector">
                 <button id="qr-mode-btn" class="active">QR Code</button>
                 <button id="barcode-mode-btn">Barcode</button>
-                <button id="convert-mode-btn">Convert</button>
             </div>
 
             <!-- QR Code Section -->
@@ -47,21 +46,10 @@
                     <p id="barcode-error-message" class="hidden"></p>
                 </div>
             </div>
-
-            <!-- Conversion Section -->
-            <div id="convert-section" class="hidden">
-                <div class="input-group">
-                    <input type="file" id="file-input" accept="image/*">
-                    <button id="convert-btn">Convert Image</button>
-                </div>
-                <div id="conversion-result">
-                    <p>Upload an image to convert between QR code and barcode</p>
-                    <div id="converted-output"></div>
-                    <button id="download-converted-btn" class="hidden">Download Result</button>
-                </div>
-            </div>
         </div>
     </div>
+
+    <div id="_temp-qr-region" style="display:none"></div>
 
     <footer>
         <p>© 2025 QR Code Generator. All Rights Reserved.</p>
@@ -69,7 +57,8 @@
 
     <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-    <script src="https://unpkg.com/@zxing/browser@0.1.1/umd/index.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="https://unpkg.com/quagga@0.12.1/dist/quagga.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script src="script.js"></script>
 </body>
