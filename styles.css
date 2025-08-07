@@ -78,18 +78,18 @@ button:hover {
     display: none;
 }
 
-#download-btn {
+#download-qr-btn {
     background-color: #27ae60;
     margin-top: 20px;
     padding: 10px 15px;
     display: inline-block;
 }
 
-#download-btn:hover {
+#download-qr-btn:hover {
     background-color: #219653;
 }
 
-#download-btn.hidden {
+#download-qr-btn.hidden {
     display: none;
 }
 
@@ -161,4 +161,54 @@ footer p {
 #conversion-result {
     text-align: center;
     margin-top: 20px;
+}
+
+#barcode-container {
+    text-align: center;
+    margin-top: 20px;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#download-barcode-btn {
+    background-color: #27ae60;
+    margin-top: 20px;
+    padding: 10px 15px;
+    display: inline-block;
+}
+
+#download-barcode-btn:hover {
+    background-color: #219653;
+}
+
+#download-barcode-btn.hidden {
+    display: none;
+}
+
+#converted-output {
+    text-align: center;
+    margin-top: 20px;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#download-converted-btn {
+    background-color: #27ae60;
+    margin-top: 20px;
+    padding: 10px 15px;
+    display: inline-block;
+}
+
+#download-converted-btn:hover {
+    background-color: #219653;
+}
+
+#download-converted-btn.hidden {
+    display: none;
 }
