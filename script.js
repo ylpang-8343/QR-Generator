@@ -210,16 +210,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            convertedOutput.innerHTML = '<p>Processing image...</p>';
+            convertedOutput.innerHTML = '<div class="loading-spinner">Processing image...</div>';
             downloadConvertedBtn.classList.add('hidden');
             
             const result = await identifyAndConvertImage(file);
             
             if (result.type === 'qr') {
-                convertedOutput.innerHTML = `<p>Found QR code: ${result.data}</p>`;
+                convertedOutput.innerHTML = `<p>Found QR code: <strong>${result.data}</strong></p>`;
                 currentConvertedImage = await generateImageFromData(result.data, 'barcode');
             } else if (result.type === 'barcode') {
-                convertedOutput.innerHTML = `<p>Found barcode: ${result.data}</p>`;
+                convertedOutput.innerHTML = `<p>Found barcode: <strong>${result.data}</strong></p>`;
                 currentConvertedImage = await generateImageFromData(result.data, 'qr');
             }
             
@@ -229,47 +229,50 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (error) {
             console.error('Conversion error:', error);
-            showError('Failed to convert image. Please try another file.', convertedOutput);
+            showError('Failed to convert image. Please ensure:<br>1. The image is clear<br>2. Contains a valid QR code or barcode<br>3. Is properly framed', convertedOutput);
         }
     }
 
-    function identifyAndConvertImage(file) {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            const url = URL.createObjectURL(file);
-            
-            img.onload = async function() {
-                try {
-                    // Try QR code scanning first
-                    const qrResult = await QrScanner.scanImage(img);
-                    resolve({ type: 'qr', data: qrResult });
-                } catch (qrError) {
-                    // If not QR code, try barcode
-                    try {
-                        const barcodeResult = await readBarcodeFromImage(img);
-                        resolve({ type: 'barcode', data: barcodeResult });
-                    } catch (barcodeError) {
-                        reject(new Error('Neither QR code nor barcode found'));
-                    }
-                } finally {
-                    URL.revokeObjectURL(url);
-                }
-            };
-            
-            img.onerror = reject;
-            img.src = url;
-        });
+    async function identifyAndConvertImage(file) {
+        // Use zxing-js/browser for QR code scanning
+        try {
+            console.log('Attempting QR code scan...');
+            const img = await fileToImage(file);
+            const codeReader = new ZXingBrowser.BrowserQRCodeReader();
+            const result = await codeReader.decodeFromImageElement(img);
+            console.log('QR scan successful');
+            return { type: 'qr', data: result.text };
+        } catch (qrError) {
+            console.log('QR scan failed, trying barcode:', qrError);
+
+            // If QR scan fails, try barcode
+            try {
+                console.log('Attempting barcode scan...');
+                const barcodeResult = await readBarcodeFromImage(file);
+                console.log('Barcode scan successful');
+                return { type: 'barcode', data: barcodeResult };
+            } catch (barcodeError) {
+                console.log('Barcode scan failed:', barcodeError);
+                throw new Error('The image doesn\'t contain a recognizable QR code or barcode.');
+            }
+        }
     }
 
-    function readBarcodeFromImage(img) {
-        return new Promise((resolve, reject) => {
-            resolve("1234567890123");
-        });
+    async function readBarcodeFromImage(file) {
+        const img = await fileToImage(file);
+        const barcodeReader = new ZXingBrowser.BrowserBarcodeReader();
+        try {
+            const result = await barcodeReader.decodeFromImageElement(img);
+            return result.text;
+        } catch (err) {
+            throw new Error('Could not detect barcode');
+        }
     }
 
-    function generateImageFromData(data, type) {
+    async function generateImageFromData(data, type) {
         return new Promise((resolve) => {
             const container = document.createElement('div');
+            container.className = 'converted-image-container';
             
             if (type === 'barcode') {
                 const canvas = document.createElement('canvas');
@@ -282,7 +285,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 container.appendChild(canvas);
             } else {
-                new QRCode(container, {
+                const qrContainer = document.createElement('div');
+                new QRCode(qrContainer, {
                     text: data,
                     width: 200,
                     height: 200,
@@ -290,6 +294,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     colorLight: "#ffffff",
                     correctLevel: QRCode.CorrectLevel.H
                 });
+                container.appendChild(qrContainer);
             }
             
             setTimeout(() => {
@@ -299,6 +304,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Helper Functions
+    function fileToImage(file) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            const url = URL.createObjectURL(file);
+            img.onload = () => {
+                URL.revokeObjectURL(url);
+                resolve(img);
+            };
+            img.onerror = (e) => {
+                URL.revokeObjectURL(url);
+                reject(e);
+            };
+            img.src = url;
+        });
+    }
+
     function showError(message, element) {
         if (typeof element === 'string') {
             element = document.getElementById(element);
